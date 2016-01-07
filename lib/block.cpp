@@ -1,7 +1,15 @@
 #include "block.h"
 #include "board.h"
 
+using namespace util;
+
 // Class Blcok_Shape
+
+const int block_shape::PRESET_N = 7;
+const int block_shape::PRESET_SHAPE[PRESET_N] = {114, 15, 51, 547, 275, 99, 54};
+const int block_shape::PRESET_WIDTH[PRESET_N] = {3, 4, 2, 2, 2, 3, 3};
+const int block_shape::PRESET_HEIGHT[PRESET_N] = {2, 1, 2, 3, 3, 2, 2};
+
 block_shape::block_shape() {}
 
 block_shape::block_shape(int w, int h, int s) {
@@ -65,17 +73,15 @@ block::block(point s, block_shape bs) {
     shape = bs;
 }
 
-block_shape GetRandomBlockShape() {
+block_shape block_shape::GetRandomBlockShape() {
     int t = random(7);
-    // PRESET is a macro and declaring t is necessary
-    block_shape bs = PRESET(t);
+    block_shape bs = preset(t);
     int r = random(4);
     while (r--)
         bs.RotateClockwise();
     return bs;
 }
 // Class Block_Shape Done
-
 
 //Class Block
 void block::Drop() {

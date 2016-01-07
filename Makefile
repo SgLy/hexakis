@@ -7,7 +7,7 @@ CXX=g++
 CXXLD=g++
 
 CFLAGS=$(SDL_CFLAGS) -MMD -MP
-CXXFLAGS=$(SDL_CFLAGS) -MMD -MP
+CXXFLAGS=$(SDL_CFLAGS) -MMD -MP -std=gnu++11
 
 GUI_CPPSRCS=$(wildcard gui/*.cpp)
 GUI_OBJS=$(GUI_CPPSRCS:.cpp=.o)

@@ -1,25 +1,30 @@
 #ifndef UTIL_INCLUDED
 #define UTIL_INCLUDED
 
-#include <map>
+#include <algorithm>
 
-void milliSleep(int ms);
-int random(int range);
-int min(int a, int b);
-int max(int a, int b);
-int CalcTime(int max_time, int min_time, int interval, int len);
+namespace util {
 
-struct point {
-    int x, y;
-    point () : x(0), y(0) {}
-    point (int xx, int yy) : x(xx), y(yy) {}
-};
+    using std::min;
+    using std::max;
 
-bool operator == (const point a, const point b);
-bool operator != (const point a, const point b);
-point operator - (const point a);
-point operator + (const point a, const point b);
-point operator += (const point a, const point b);
-point operator - (const point a, const point b);
+    void milliSleep(int ms);
+    int random(int range);
+
+    struct point {
+        int x, y;
+        point () : x(0), y(0) {}
+        point (int xx, int yy) : x(xx), y(yy) {}
+        point (const point &p) : x(p.x), y(p.y) {}
+    };
+
+    bool operator == (const point a, const point b);
+    bool operator != (const point a, const point b);
+    point operator - (const point a);
+    point operator + (const point a, const point b);
+    point operator += (const point a, const point b);
+    point operator - (const point a, const point b);
+
+}
 
 #endif

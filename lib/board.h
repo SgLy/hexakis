@@ -4,11 +4,11 @@
 #include <vector>
 #include <list>
 
-typedef std::vector<bool> row;
-typedef std::list<row> table;
-
 class board {
 public:
+    typedef std::vector<bool> row;
+    typedef std::list<row> table;
+
     int height, width;
     table map;
     board();
