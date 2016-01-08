@@ -19,20 +19,15 @@ LIB_DEPS=$(LIB_CPPSRCS:.cpp=.d)
 
 all: hexakis
 
-hexakis: $(GUI_OBJS) lib/libhexakis.a
-	$(CXXLD) $(SDL_LIBS) $(GUI_OBJS) lib/libhexakis.a -o hexakis
+hexakis: $(GUI_OBJS) $(LIB_OBJS)
+	$(CXXLD) $(SDL_LIBS) $(GUI_OBJS) $(LIB_OBJS) -o hexakis
 
-lib/libhexakis.a: $(LIB_OBJS)
-	rm -f lib/libhexakis.a
-	ar r lib/libhexakis.a $(LIB_OBJS)
-	ranlib lib/libhexakis.a
-
-dirty_test: lib/libhexakis.a
-	$(CXXLD) $(CXXFLAGS) lib/libhexakis.a test/dirty_test.cpp -o dirty_test
+dirty_test: test/dirty_test.o $(LIB_OBJS)
+	$(CXXLD) $(LIB_OBJS) test/dirty_test.o -o dirty_test
 
 -include $(LIB_DEPS) $(GUI_DEPS)
 
 clean:
-	rm -f $(LIB_OBJS) $(GUI_OBJS) $(LIB_DEPS) $(GUI_DEPS) hexakis lib/libhexakis.a dirty_test
+	rm -f $(LIB_OBJS) $(GUI_OBJS) $(LIB_DEPS) $(GUI_DEPS) hexakis dirty_test
 
 .PHONY: all clean
