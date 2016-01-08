@@ -1,5 +1,5 @@
-SDL_CFLAGS="`sdl2-config --cflags`"
-SDL_LIBS="`sdl2-config --libs`"
+SDL_CFLAGS=`sdl2-config --cflags`
+SDL_LIBS=`sdl2-config --libs`
 
 CC=gcc
 CXX=g++
