@@ -23,12 +23,16 @@ hexakis: $(GUI_OBJS) lib/libhexakis.a
 	$(CXXLD) $(SDL_LIBS) $(GUI_OBJS) lib/libhexakis.a -o hexakis
 
 lib/libhexakis.a: $(LIB_OBJS)
+	rm -f lib/libhexakis.a
 	ar r lib/libhexakis.a $(LIB_OBJS)
 	ranlib lib/libhexakis.a
+
+dirty_test: lib/libhexakis.a
+	$(CXXLD) $(CXXFLAGS) lib/libhexakis.a test/dirty_test.cpp -o dirty_test
 
 -include $(LIB_DEPS) $(GUI_DEPS)
 
 clean:
-	rm -f $(LIB_OBJS) $(GUI_OBJS) $(LIB_DEPS) $(GUI_DEPS) hexakis lib/libhexakis.a
+	rm -f $(LIB_OBJS) $(GUI_OBJS) $(LIB_DEPS) $(GUI_DEPS) hexakis lib/libhexakis.a dirty_test
 
 .PHONY: all clean
