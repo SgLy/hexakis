@@ -6,6 +6,4 @@
 
 #define BOARD_TILE_SIZE 64
 
-#define INITIAL_INTERVAL 1000
-
 #endif // CONSTS_H

@@ -32,7 +32,6 @@ void MainWindow::resizeEvent (QResizeEvent *event)
 
 void MainWindow::on_pushButton_clicked()
 {
-	timer->start(INITIAL_INTERVAL);
 }
 
 void MainWindow::on_timer_timeout()
