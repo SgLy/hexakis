@@ -27,3 +27,6 @@ HEADERS  += mainwindow.h \
     consts.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    gui.qrc

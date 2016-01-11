@@ -6,6 +6,8 @@
 #include <QResizeEvent>
 #include <QTimer>
 
+#include "../lib/board.h"
+
 namespace Ui {
 	class MainWindow;
 }
@@ -18,6 +20,7 @@ Q_OBJECT public:
 private:
 	Ui::MainWindow *ui;
 	QTimer *timer;
+	void drawBoard (const board &b);
 protected:
 	void resizeEvent (QResizeEvent *event);
 private slots:
