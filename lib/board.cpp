@@ -3,7 +3,7 @@
 board::board() {}
 
 board::board(int w, int h) {
-    width = w;
-    height = h;
-    map.clear();
+	width = w;
+	height = h;
+	map.clear();
 }

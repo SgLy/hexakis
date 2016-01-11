@@ -6,13 +6,14 @@
 
 class board {
 public:
-    typedef std::vector<bool> row;
-    typedef std::list<row> table;
+	typedef std::vector<bool> row;
+	typedef std::list<row> table;
 
-    int height, width;
-    table map;
-    board();
-    board(int w, int h);
+	int height, width;
+	table map;
+	board();
+	board(int w, int h);
+	void Merge(block b);
 };
 
 #endif
