@@ -3,3 +3,6 @@
 *.d
 /hexakis
 /dirty_test
+build*
+*.pro.user
+*~
