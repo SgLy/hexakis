@@ -101,6 +101,12 @@ bool block::Drop(board &b) {
 	return false;
 }
 
+block block::FakeRotateClockwise() {
+	block t = *this;
+	t.shape.RotateClockwise();
+	return t;
+}
+
 void block::RotateClockwise() {
 	shape.RotateClockwise();
 }
@@ -138,7 +144,7 @@ bool block::isHitBoard(const board &b) {
 	return false;
 }
 
-block block::FakeDropToBottom(board b) {
+block block::FakeDropToBottom(const board b) {
 	block p, q;
 	p = *this;
 	q = p.FakeDrop();

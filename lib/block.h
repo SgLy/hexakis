@@ -36,11 +36,12 @@ public:
 	block(util::point s, block_shape bs);
 	block FakeDrop();
 	bool Drop(board &b); // return true if merged with the board
+	block FakeRotateClockwise();
 	void RotateClockwise();
 	void RotateCounterClockwise();
 	void MoveLeft(const board &b);
 	void MoveRight(const board &b);
-	block FakeDropToBottom(board b);
+	block FakeDropToBottom(const board b);
 	void DropToBottom(board &b);
 	bool isHitBoard(const board &b);
 };
