@@ -87,9 +87,7 @@ block_shape block_shape::GetRandomBlockShape() {
 
 //Class Block
 block block::FakeDrop() {
-	block b = *this;
-	b.start_point += point(1, 0);
-	return b;
+	return block(start_point + point(1, 0), shape);
 }
 
 bool block::Drop(board b) {
@@ -98,7 +96,7 @@ bool block::Drop(board b) {
 		b.Merge(*this);
 		return true;
 	}
-	*this = t;
+	start_point += point(1, 0);
 	return false;
 }
 
