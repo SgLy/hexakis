@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     ../lib/util.cpp \
     ../lib/normal_game.cpp \
     color_table.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    highscore.cpp
 
 HEADERS  += mainwindow.h \
     ../lib/block.h \
@@ -30,10 +31,12 @@ HEADERS  += mainwindow.h \
     consts.h \
     ../lib/normal_game.h \
     color_table.h \
-    settingsdialog.h
+    settingsdialog.h \
+    highscore.h
 
 FORMS    += mainwindow.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    highscore.ui
 
 RESOURCES += \
     gui.qrc

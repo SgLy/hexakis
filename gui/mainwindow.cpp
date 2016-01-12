@@ -5,6 +5,7 @@
 #include <QSize>
 #include <QTransform>
 #include <QDebug>
+#include <QGraphicsTextItem>
 
 #include <ctime>
 
@@ -59,6 +60,7 @@ void MainWindow::mode_switch()
 		4*BOARD_TILE_SIZE), Qt::KeepAspectRatio);
 	switch (state) {
 	case STATE_INIT:
+		game->Reset();
 		game->Start();
 		drawNext(game->next);
 		state = STATE_RUNNING;
@@ -95,6 +97,7 @@ void MainWindow::timer_timeout()
 {
 	if (state != STATE_RUNNING) return;
 	if (game->Drop()) {
+		finishJudge();
 		drawNext(game->next);
 		int erases = game->EraseRows();
 		for(int i = 0; i<erases; i++)
@@ -102,6 +105,7 @@ void MainWindow::timer_timeout()
 			score += (i+1) * 100;
 		}
 		refreshScore();
+
 	}
 	qDebug() << game->now.start_point.x << " "
 		<< game->now.start_point.y;
@@ -110,6 +114,7 @@ void MainWindow::timer_timeout()
 
 void MainWindow::redraw()
 {
+	if(state != STATE_RUNNING) return;
 	drawBoard (game->brd);
 	drawBlock (game->now);
 	if (dropPreview) drawPreview (game->now.FakeDropToBottom(game->brd));
@@ -202,6 +207,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 		switch (event->key()) {
 		case Qt::Key_Space:
 			game->DropToBottom();
+			finishJudge();
 			drawNext(game->next);
 			erases = game->EraseRows();
 			for(int i = 0; i<erases; i++)
@@ -283,5 +289,26 @@ void MainWindow::refreshSettings(bool store)
 		interval = settings->value
 			("Interval",SETTINGS_INTERVAL_DEFAULT).toInt();
 		settings->endGroup();
+	}
+}
+
+void MainWindow::finishJudge()
+{
+	if(game->now.isHitBoard(game->brd)) {
+		state = STATE_INIT;
+		int w = BOARD_WIDTH * BOARD_TILE_SIZE;
+		int h = BOARD_HEIGHT * BOARD_TILE_SIZE;
+		qDebug() << "Game Over";
+		scene->clear();
+		drawBoard(game->brd);
+		scene->addRect(w/4, h/2 - h/8, w/2, h/8, QPen(),
+			QBrush(QColor(255,255,255,64)));
+		QGraphicsTextItem *ti = scene->addText
+			("Game Over.",QFont("serif",BOARD_TILE_SIZE,700));
+		ti->setPos(w/4+BOARD_TILE_SIZE,
+			h/2 - h/8 + BOARD_TILE_SIZE);
+		timer->stop();
+		ui->pushButton->setText("Start Game");
+		ui->actionStart_Game->setText("Start Game");
 	}
 }

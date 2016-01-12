@@ -35,6 +35,7 @@ private:
 	int score;
 	void doEraseRows();
 	void mode_switch();
+	void finishJudge();
 	QSettings *settings;
 	bool dropPreview;
 	int interval;
