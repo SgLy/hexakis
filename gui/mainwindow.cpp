@@ -57,17 +57,19 @@ void MainWindow::on_pushButton_clicked()
 	}
 	start_timer:
 	restartTimer ();
-	drawBoard (game->brd);
-	drawBlock (game->now);
+	redraw();
 }
 
 void MainWindow::timer_timeout()
 {
 	if (state != STATE_RUNNING) return;
 	qDebug() << game->Drop();
+	redraw();
+}
+
+void MainWindow::redraw()
+{
 	drawBoard (game->brd);
-	qDebug() << " " << game->now.start_point.x << " "
-		<< game->now.start_point.y << "\n";
 	drawBlock (game->now);
 }
 
@@ -116,20 +118,22 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 		goto restart_timer;
 	case Qt::Key_Left:
 		game->MoveLeft();
-		goto restart_timer;
+		goto redraw;
 	case Qt::Key_Right:
 		game->MoveRight();
-		goto restart_timer;
+		goto redraw;
 	case Qt::Key_Up:
 		game->Rotate();
-		goto restart_timer;
+		goto redraw;
 	case Qt::Key_Down:
 		timer_timeout ();
-		goto restart_timer;
+		goto redraw;
 	default:
 		QMainWindow::keyReleaseEvent(event);
 		return;
 	}
+	redraw:
+	redraw ();
 	restart_timer:
 	restartTimer();
 }

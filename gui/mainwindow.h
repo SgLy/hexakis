@@ -21,6 +21,7 @@ Q_OBJECT public:
 private:
 	Ui::MainWindow *ui;
 	QTimer *timer;
+	void redraw ();
 	void drawTile (int x, int y);
 	void drawBoard (const board &b);
 	void drawBlock (const block &b);
