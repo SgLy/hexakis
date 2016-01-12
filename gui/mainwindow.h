@@ -32,6 +32,7 @@ private:
 	void restartTimer();
 	int score;
 	void doEraseRows();
+	void mode_switch();
 protected:
 	void resizeEvent (QResizeEvent *event);
 	void keyReleaseEvent(QKeyEvent * event);
