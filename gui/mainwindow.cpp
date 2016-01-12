@@ -113,9 +113,23 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
 	switch (event->key()) {
 	case Qt::Key_Space:
-		return;
+		goto restart_timer;
+	case Qt::Key_Left:
+		game->MoveLeft();
+		goto restart_timer;
+	case Qt::Key_Right:
+		game->MoveRight();
+		goto restart_timer;
+	case Qt::Key_Up:
+		game->Rotate();
+		goto restart_timer;
+	case Qt::Key_Down:
+		timer_timeout ();
+		goto restart_timer;
 	default:
 		QMainWindow::keyReleaseEvent(event);
 		return;
 	}
+	restart_timer:
+	restartTimer();
 }

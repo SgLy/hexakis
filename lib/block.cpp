@@ -109,11 +109,11 @@ void block::RotateCounterClockwise() {
 }
 
 void block::MoveLeft() {
-	start_point += point(0, 1);
+	start_point += point(0, -1);
 }
 
 void block::MoveRight() {
-	start_point += point(0, -1);
+	start_point += point(0, 1);
 }
 
 bool block::isHitBoard(board b) {
