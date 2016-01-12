@@ -52,6 +52,7 @@ bool normal_game::Drop() {
 }
 
 void normal_game::Rotate() {
+	if (now.start_point.x + now.shape.height - 1 >= brd.width) return;
 	now.RotateClockwise();
 }
 
