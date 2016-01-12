@@ -2,7 +2,7 @@
 #define BOARD_INCLUDED
 
 #include <vector>
-#include <list>
+#include <deque>
 
 class board;
 class block;
@@ -12,7 +12,7 @@ class block;
 class board {
 public:
 	typedef std::vector<bool> row;
-	typedef std::list<row> table;
+	typedef std::deque<row> table;
 
 	int height, width;
 	table map;
