@@ -39,6 +39,7 @@ public:
 	void RotateCounterClockwise();
 	void MoveLeft(const board &b);
 	void MoveRight(const board &b);
+	block FakeDropToBottom(board b);
 	void DropToBottom(board &b);
 	bool isHitBoard(const board &b);
 };

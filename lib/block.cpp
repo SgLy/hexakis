@@ -137,6 +137,17 @@ bool block::isHitBoard(const board &b) {
 	return false;
 }
 
+block block::FakeDropToBottom(board b) {
+	block p, q;
+	p = *this;
+	q = p.FakeDrop();
+	while (!q.isHitBoard(b)) {
+		p = q;
+		q = q.FakeDrop();
+	}
+	return p;
+}
+
 void block::DropToBottom(board &b) {
 	while (!Drop(b));
 }
