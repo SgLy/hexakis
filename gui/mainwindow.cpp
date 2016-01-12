@@ -60,16 +60,19 @@ void MainWindow::mode_switch()
 		score = 0;
 		refreshScore();
 		ui->pushButton->setText("Pause");
+		ui->actionStart_Game->setText("Pause");
 		goto start_timer;
 	case STATE_RUNNING:
 		game->Pause();
 		timer->stop();
 		ui->pushButton->setText("Resume");
+		ui->actionStart_Game->setText("Resume");
 		state = STATE_PAUSE;
 		return;
 	case STATE_PAUSE:
 		game->Resume();
 		ui->pushButton->setText("Pause");
+		ui->actionStart_Game->setText("Pause");
 		state = STATE_RUNNING;
 		goto start_timer;
 	}
@@ -88,7 +91,11 @@ void MainWindow::timer_timeout()
 	if (state != STATE_RUNNING) return;
 	if (game->Drop()) {
 		drawNext(game->next);
-		score += game->EraseRows();
+		int erases = game->EraseRows();
+		for(int i = 0; i<erases; i++)
+		{
+			score += (i+1) * 100;
+		}
 		refreshScore();
 	}
 	qDebug() << game->now.start_point.x << " "
@@ -202,4 +209,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 void MainWindow::refreshScore()
 {
 	ui->label_score->setText(QString::asprintf("%d",score));
+}
+
+void MainWindow::on_actionStart_Game_triggered()
+{
+	mode_switch();
 }

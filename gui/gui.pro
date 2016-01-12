@@ -26,7 +26,8 @@ HEADERS  += mainwindow.h \
     ../lib/board.h \
     ../lib/util.h \
     consts.h \
-    ../lib/normal_game.h
+    ../lib/normal_game.h \
+    color_table.h
 
 FORMS    += mainwindow.ui
 
