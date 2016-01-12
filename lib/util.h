@@ -22,7 +22,7 @@ namespace util {
 	bool operator != (const point a, const point b);
 	point operator - (const point a);
 	point operator + (const point a, const point b);
-	point operator += (const point a, const point b);
+	point &operator += (point &a, const point b);
 	point operator - (const point a, const point b);
 
 }

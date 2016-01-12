@@ -47,8 +47,10 @@ namespace util{
 		return point(a.x + b.x, a.y + b.y);
 	}
 
-	point operator += (const point a, const point b) {
-		return point(a.x + b.x, a.y + b.y);
+	point &operator += (point &a, const point b) {
+		a.x += b.x;
+		a.y += b.y;
+		return a;
 	}
 
 	point operator - (const point a, const point b) {

@@ -7,6 +7,7 @@
 #include <QTimer>
 
 #include "../lib/board.h"
+#include "../lib/normal_game.h"
 
 namespace Ui {
 	class MainWindow;
@@ -20,12 +21,16 @@ Q_OBJECT public:
 private:
 	Ui::MainWindow *ui;
 	QTimer *timer;
+	void drawTile (int x, int y);
 	void drawBoard (const board &b);
+	void drawBlock (const block &b);
+	normal_game *game;
+	enum {STATE_INIT, STATE_RUNNING, STATE_PAUSE} state;
 protected:
 	void resizeEvent (QResizeEvent *event);
 private slots:
 	void on_pushButton_clicked();
-	void on_timer_timeout();
+	void timer_timeout();
 };
 
 #endif				// MAINWINDOW_H

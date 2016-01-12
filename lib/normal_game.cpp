@@ -16,14 +16,6 @@ int normal_game::GetWidth() {
 	return brd.width;
 }
 
-block normal_game::GetCurrentBlock() {
-	return now;
-}
-
-block normal_game::GetNextBlock() {
-	return next;
-}
-
 void normal_game::Reset() {
 	*this = normal_game(GetWidth(), GetHeight());
 }

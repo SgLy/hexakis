@@ -5,15 +5,13 @@
 #include "board.h"
 
 class normal_game {
+	bool running;
+public:
 	block now, next;
 	board brd;
-	bool running;
 	normal_game(int w, int h);
 	int GetHeight();
 	int GetWidth();
-	block GetCurrentBlock();
-	block GetNextBlock();
-	board GetBoard();
 	void Reset();
 	void Start();
 	void Pause();

@@ -3,6 +3,7 @@
 
 #include <QSize>
 #include <QTransform>
+#include <QDebug>
 
 #include <ctime>
 
@@ -14,11 +15,13 @@ QMainWindow (parent), ui (new Ui::MainWindow)
 	ui->setupUi (this);
 	scene = new QGraphicsScene (0, 0, BOARD_WIDTH * BOARD_TILE_SIZE,
 		BOARD_HEIGHT * BOARD_TILE_SIZE);
-	scene->setBackgroundBrush(QBrush(QColor(Qt::black)));
+	scene->setBackgroundBrush(QBrush(QColor(Qt::white)));
 	ui->graphicsView->setScene (scene);
 	timer = new QTimer (this);
-	connect(timer, SIGNAL(timeout()), this, SLOT(on_timer_timeout()));
+	connect(timer, SIGNAL(timeout()), this, SLOT(timer_timeout()));
 	qsrand (std::time(NULL));
+	game = new normal_game (BOARD_WIDTH, BOARD_HEIGHT);
+	state = STATE_INIT;
 }
 
 MainWindow::~MainWindow ()
@@ -37,26 +40,66 @@ void MainWindow::on_pushButton_clicked()
 {
 	ui->graphicsView->fitInView(QRectF(0, 0, BOARD_WIDTH * BOARD_TILE_SIZE,
 		BOARD_HEIGHT * BOARD_TILE_SIZE), Qt::KeepAspectRatio);
+	switch (state) {
+	case STATE_INIT:
+		game->Start();
+		state = STATE_RUNNING;
+		goto start_timer;
+	case STATE_RUNNING:
+		;
+	case STATE_PAUSE:
+		;
+	}
+	start_timer:
+	timer->start(1000);
+	drawBoard (game->brd);
+	drawBlock (game->now);
 }
 
-void MainWindow::on_timer_timeout()
+void MainWindow::timer_timeout()
 {
+	if (state != STATE_RUNNING) return;
+	qDebug() << game->Drop();
+	drawBoard (game->brd);
+	qDebug() << " " << game->now.start_point.x << " "
+		<< game->now.start_point.y << "\n";
+	drawBlock (game->now);
+}
+
+void MainWindow::drawTile(int x, int y)
+{
+	scene->addRect(x * BOARD_TILE_SIZE,
+		y * BOARD_TILE_SIZE, BOARD_TILE_SIZE,
+		BOARD_TILE_SIZE, QPen (),
+		QBrush (QColor(Qt::red)));
 }
 
 void MainWindow::drawBoard(const board &b)
 {
 	scene->clear();
+	scene->addRect(0, 0, BOARD_WIDTH * BOARD_TILE_SIZE,
+		BOARD_HEIGHT * BOARD_TILE_SIZE, QPen(),
+		QBrush(QColor(Qt::black)));
 	int row = BOARD_HEIGHT - 1;
 	for (board::row r : b.map) {
 		for (size_t i = 0; i<BOARD_WIDTH; i++)
 		{
 			if (r.size() > i && r[i]) {
-				scene->addRect(i * BOARD_TILE_SIZE,
-					row * BOARD_TILE_SIZE, BOARD_TILE_SIZE,
-					BOARD_TILE_SIZE, QPen (),
-					QBrush (QColor(Qt::red)));
+				drawTile (i,row);
 			}
 		}
 		row--;
+	}
+}
+
+void MainWindow::drawBlock(const block &b)
+{
+	for (int i = 0; i<4; i++) {
+		for (int j = 0; j<4; j++) {
+			if (b.shape.b[i][j]) {
+				drawTile (i + b.start_point.x,
+					j + b.start_point.y);
+			}
+		}
 	}
 }
