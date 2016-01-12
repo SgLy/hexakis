@@ -26,6 +26,7 @@ QMainWindow (parent), ui (new Ui::MainWindow)
 	srand (std::time(NULL));
 	game = new normal_game (BOARD_WIDTH, BOARD_HEIGHT);
 	state = STATE_INIT;
+	setWindowState(Qt::WindowMaximized);
 }
 
 MainWindow::~MainWindow ()
