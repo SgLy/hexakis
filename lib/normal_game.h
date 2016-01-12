@@ -1,6 +1,9 @@
 #ifndef NORMAL_GAME_DEFINED
 #define NORMAL_GAME_DEFINED
 
+#include "block.h"
+#include "board.h"
+
 class normal_game {
 	block now, next;
 	board brd;

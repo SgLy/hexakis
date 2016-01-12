@@ -119,12 +119,14 @@ void block::MoveRight() {
 }
 
 bool block::isHitBoard(board b) {
+	const int h = b.height, w = b.width;
+
 	// under construction
 	// if bottom of block above top of map
 	if (start_point.x + h - 1 < b.height - 1 - b.map.size())
 		return false;
 
-	table::reverse_iterator it = b.map.rbegin();
+	board::table::reverse_iterator it = b.map.rbegin();
 	// i indicates the row coord processing now
 	// starting from the top of the map
 	int i = b.height - 1 - b.map.size();
@@ -133,11 +135,11 @@ bool block::isHitBoard(board b) {
 	// i to the bottom of the block
 	for (; i < start_point.x + h - 1; ++it, ++i) {
 		for (int j = 0; j < w; ++j)
-			if (*it[j] && b[i][j]) return true;
+			if ( (*it)[j] && shape.b[i][j]) return true;
 	}
 	return false;
 }
 
 void block::DropToBottom(board b) {
-	while (!Drop(board b));
+	while (!Drop(b));
 }

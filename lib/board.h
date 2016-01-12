@@ -4,6 +4,11 @@
 #include <vector>
 #include <list>
 
+class board;
+class block;
+
+#include "block.h"
+
 class board {
 public:
 	typedef std::vector<bool> row;

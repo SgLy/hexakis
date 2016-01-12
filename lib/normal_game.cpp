@@ -1,4 +1,6 @@
-#include normal_game
+#include "normal_game.h"
+
+using namespace util;
 
 normal_game::normal_game(int w, int h) {
 	next = block(point(0, 0), block_shape::GetRandomBlockShape());
@@ -34,28 +36,28 @@ void normal_game::Resume() {
 	running = true;
 }
 
-bool isRunning() {
+bool normal_game::isRunning() {
 	return running;
 }
 
-bool Drop() {
+bool normal_game::Drop() {
 	if (now.Drop(brd)) {
 		now = next;
-		next = block(point(0, 0), GetRandomBlockShape());
-		now.start_point = point((width - now.width) shr 1), 0);
+		next = block(point(0, 0), block_shape::GetRandomBlockShape());
+		now.start_point = point((brd.width - now.shape.width) >> 1, 0);
 		return true;
 	}
 	return false;
 }
 
-void Rotate() {
+void normal_game::Rotate() {
 	now.RotateClockwise();
 }
 
-void MoveLeft() {
+void normal_game::MoveLeft() {
 	now.MoveLeft();
 }
 
-void MoveRight() {
+void normal_game::MoveRight() {
 	now.MoveRight();
 }
