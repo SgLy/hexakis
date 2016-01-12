@@ -46,7 +46,7 @@ void MainWindow::restartTimer()
 	timer->start(300);
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::mode_switch()
 {
 	ui->graphicsView->fitInView(QRectF(0, 0, BOARD_WIDTH * BOARD_TILE_SIZE,
 		BOARD_HEIGHT * BOARD_TILE_SIZE), Qt::KeepAspectRatio);
@@ -59,15 +59,28 @@ void MainWindow::on_pushButton_clicked()
 		state = STATE_RUNNING;
 		score = 0;
 		refreshScore();
+		ui->pushButton->setText("Pause");
 		goto start_timer;
 	case STATE_RUNNING:
-		;
+		game->Pause();
+		timer->stop();
+		ui->pushButton->setText("Resume");
+		state = STATE_PAUSE;
+		return;
 	case STATE_PAUSE:
-		;
+		game->Resume();
+		ui->pushButton->setText("Pause");
+		state = STATE_RUNNING;
+		goto start_timer;
 	}
 	start_timer:
 	restartTimer ();
 	redraw();
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+	mode_switch();
 }
 
 void MainWindow::timer_timeout()
@@ -143,31 +156,47 @@ void MainWindow::drawNext(const block &b)
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
-	switch (event->key()) {
-	case Qt::Key_Space:
-		game->DropToBottom();
-		drawNext(game->next);
-		score += game->EraseRows();
-		refreshScore();
-		goto redraw;
-	case Qt::Key_Left:
-		game->MoveLeft();
-		goto redraw;
-	case Qt::Key_Right:
-		game->MoveRight();
-		goto redraw;
-	case Qt::Key_Up:
-		game->Rotate();
-		goto redraw;
-	case Qt::Key_Down:
-		timer_timeout ();
-		goto redraw;
-	default:
-		QMainWindow::keyReleaseEvent(event);
+	if (event->key() == Qt::Key_P) {
+		mode_switch();
 		return;
 	}
-	redraw:
-	redraw ();
+	switch (state) {
+	case STATE_RUNNING:
+		switch (event->key()) {
+		case Qt::Key_Space:
+			game->DropToBottom();
+			drawNext(game->next);
+			score += game->EraseRows();
+			refreshScore();
+			goto redraw;
+		case Qt::Key_Left:
+			game->MoveLeft();
+			goto redraw;
+		case Qt::Key_Right:
+			game->MoveRight();
+			goto redraw;
+		case Qt::Key_Up:
+			game->Rotate();
+			goto redraw;
+		case Qt::Key_Down:
+			timer_timeout ();
+			goto redraw;
+		default:
+			QMainWindow::keyReleaseEvent(event);
+			return;
+		}
+		redraw:
+		redraw ();
+		return;
+	case STATE_INIT:
+		if (event->key() == Qt::Key_Space)
+			mode_switch();
+		else {
+			QMainWindow::keyReleaseEvent(event);
+			return;
+		}
+		return;
+	}
 }
 
 void MainWindow::refreshScore()
