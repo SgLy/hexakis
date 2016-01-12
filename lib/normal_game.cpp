@@ -1,4 +1,6 @@
 #include "normal_game.h"
+#include "board.h"
+#include "block.h"
 
 using namespace util;
 
@@ -54,9 +56,9 @@ void normal_game::Rotate() {
 }
 
 void normal_game::MoveLeft() {
-	now.MoveLeft();
+	now.MoveLeft(brd);
 }
 
 void normal_game::MoveRight() {
-	now.MoveRight();
+	now.MoveRight(brd);
 }

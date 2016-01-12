@@ -16,9 +16,23 @@ public:
 
 	int height, width;
 	table map;
-	board();
+	board() {}
 	board(int w, int h);
-	void Merge(block b);
+	board(board &b) {
+		map = b.map;
+		height = b.height;
+		width = b.width;
+	}
+	board(const board &b) {
+		map.clear();
+		for (const row r : b.map) {
+			map.push_back(r);
+		}
+		height = b.height;
+		width = b.width;
+	}
+
+	void Merge(const block &b);
 };
 
 #endif
