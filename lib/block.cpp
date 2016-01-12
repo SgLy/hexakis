@@ -90,7 +90,7 @@ block block::FakeDrop() {
 	return block(start_point + point(1, 0), shape);
 }
 
-bool block::Drop(board b) {
+bool block::Drop(board &b) {
 	block t = FakeDrop();
 	if (t.isHitBoard(b)) {
 		b.Merge(*this);
@@ -108,40 +108,35 @@ void block::RotateCounterClockwise() {
 	shape.RotateCounterClockwise();
 }
 
-void block::MoveLeft() {
-	start_point += point(0, -1);
+void block::MoveLeft(const board &b) {
+	point tmp_point = start_point + point(0,-1);
+	if (block(tmp_point,shape).isHitBoard(b)) return;
+	start_point = tmp_point;
 }
 
-void block::MoveRight() {
-	start_point += point(0, 1);
+void block::MoveRight(const board &b) {
+	point tmp_point = start_point + point(0,1);
+	if (block(tmp_point,shape).isHitBoard(b)) return;
+	start_point = tmp_point;
 }
 
-bool block::isHitBoard(board b) {
+bool block::isHitBoard(const board &b) {
 	const int h = shape.height, w = shape.width;
 	
 	// under construction
-	// if bottom of block above top of map
-	if (start_point.x + h - 1 < b.height - 1 - b.map.size())
-		return false;
-
-	// if bottom of block out of map
-	if (start_point.x + h - 1 >= b.height)
-		return true;
-
-	board::table::reverse_iterator it = b.map.rbegin();
-	// i indicates the row coord processing now
-	// starting from the top of the map
-	int i = b.height - 1 - b.map.size();
-	// judgement start from the top of the block
-	for (; i < start_point.x; ++i, ++it);
-	// i to the bottom of the block
-	for (; i < start_point.x + h - 1; ++it, ++i) {
-		for (int j = 0; j < w; ++j)
-			if ( (*it)[j] && shape.b[i][j]) return true;
+	for (int i = 0; i<h; i++) {
+		for (int j = 0; j<w; j++) {
+			int x = i + start_point.x;
+			int y = j + start_point.y;
+			if (shape.b[i][j] &&
+				(x >= b.height || y >= b.width || y < 0 ||
+				b.map[b.height - 1 - x][y]))
+				return true;
+		}
 	}
 	return false;
 }
 
-void block::DropToBottom(board b) {
+void block::DropToBottom(board &b) {
 	while (!Drop(b));
 }

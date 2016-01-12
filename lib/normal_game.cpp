@@ -1,4 +1,6 @@
 #include "normal_game.h"
+#include "board.h"
+#include "block.h"
 
 using namespace util;
 
@@ -54,9 +56,21 @@ void normal_game::Rotate() {
 }
 
 void normal_game::MoveLeft() {
-	now.MoveLeft();
+	now.MoveLeft(brd);
 }
 
 void normal_game::MoveRight() {
-	now.MoveRight();
+	now.MoveRight(brd);
+}
+
+int normal_game::EraseRows() {
+	return brd.EraseRows();
+}
+
+void normal_game::DropToBottom()
+{
+	now.DropToBottom(brd);
+	now = next;
+	next = block(point(0, 0), block_shape::GetRandomBlockShape());
+	now.start_point = point(0, (brd.width - now.shape.width) >> 1);
 }

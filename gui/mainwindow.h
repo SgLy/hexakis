@@ -17,7 +17,7 @@ Q_OBJECT public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
 
-	QGraphicsScene *scene;
+	QGraphicsScene *scene, *nextScene;
 private:
 	Ui::MainWindow *ui;
 	QTimer *timer;
@@ -25,9 +25,13 @@ private:
 	void drawTile (int x, int y);
 	void drawBoard (const board &b);
 	void drawBlock (const block &b);
+	void drawNext (const block &b);
+	void refreshScore();
 	normal_game *game;
 	enum {STATE_INIT, STATE_RUNNING, STATE_PAUSE} state;
 	void restartTimer();
+	int score;
+	void doEraseRows();
 protected:
 	void resizeEvent (QResizeEvent *event);
 	void keyReleaseEvent(QKeyEvent * event);
