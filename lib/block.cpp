@@ -119,8 +119,8 @@ void block::MoveRight() {
 }
 
 bool block::isHitBoard(board b) {
-	const int h = b.height, w = b.width;
-
+	const int h = shape.height, w = shape.width;
+	
 	// under construction
 	// if bottom of block above top of map
 	if (start_point.x + h - 1 < b.height - 1 - b.map.size())
