@@ -63,7 +63,8 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::timer_timeout()
 {
 	if (state != STATE_RUNNING) return;
-	qDebug() << game->Drop();
+	qDebug() << game->Drop() << " " << game->now.start_point.x << " " 
+		<< game->now.start_point.y;
 	redraw();
 }
 
@@ -89,8 +90,7 @@ void MainWindow::drawBoard(const board &b)
 		QBrush(QColor(Qt::black)));
 	int row = BOARD_HEIGHT - 1;
 	for (board::row r : b.map) {
-		for (size_t i = 0; i<BOARD_WIDTH; i++)
-		{
+		for (size_t i = 0; i<BOARD_WIDTH; i++) {
 			if (r.size() > i && r[i]) {
 				drawTile (i,row);
 			}
