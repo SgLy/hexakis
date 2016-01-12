@@ -24,7 +24,7 @@ public:
 	static const int PRESET_WIDTH[];
 	static const int PRESET_HEIGHT[];
 	static block_shape &&preset(int i){
-		return std::move(block_shape(PRESET_WIDTH[i], PRESET_HEIGHT[i], PRESET_SHAPE[i], i));
+		return std::move(block_shape(PRESET_WIDTH[i], PRESET_HEIGHT[i], PRESET_SHAPE[i], i + 1));
 	}
 };
 
