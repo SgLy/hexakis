@@ -11,7 +11,7 @@ class block;
 
 class board {
 public:
-	typedef std::vector<bool> row;
+	typedef std::vector<int> row;
 	typedef std::deque<row> table;
 
 	int height, width;

@@ -20,7 +20,7 @@ void board::Merge(const block &b) {
 		for (int j = 0; j<h; j++) {
 			if (b.shape.b[j][i])
 				map[height - (b.start_point.x + j) - 1]
-					[b.start_point.y + i] = true;
+					[b.start_point.y + i] = b.shape.color;
 		}
 	}
 }

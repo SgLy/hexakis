@@ -14,9 +14,10 @@ const int block_shape::PRESET_HEIGHT[PRESET_N] = {2, 1, 2, 3, 3, 2, 2};
 
 block_shape::block_shape() {}
 
-block_shape::block_shape(int w, int h, int s) {
+block_shape::block_shape(int w, int h, int s, int c) {
 	width = w;
 	height = h;
+	color = c;
 	for (int i = 0; i < 4; ++i)
 		for (int j = 0; j < 4; ++j)
 			b[i][j] = ((s >> (i * 4 + j)) % 2 == 1);

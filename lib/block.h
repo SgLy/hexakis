@@ -8,9 +8,10 @@
 class block_shape {
 public:
 	int width, height;
+	int color;
 	bool b[4][4];
 	block_shape();
-	block_shape(int w, int h, int s);
+	block_shape(int w, int h, int s, int c);
 	int toInt();
 	void Clear();
 	void RotateClockwise();
@@ -23,7 +24,7 @@ public:
 	static const int PRESET_WIDTH[];
 	static const int PRESET_HEIGHT[];
 	static block_shape &&preset(int i){
-		return std::move(block_shape(PRESET_WIDTH[i], PRESET_HEIGHT[i], PRESET_SHAPE[i]));
+		return std::move(block_shape(PRESET_WIDTH[i], PRESET_HEIGHT[i], PRESET_SHAPE[i], i));
 	}
 };
 
