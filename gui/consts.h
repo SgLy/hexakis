@@ -6,4 +6,7 @@
 
 #define BOARD_TILE_SIZE 64
 
+#define SETTINGS_ORGNIZATION "kidney6-323"
+#define SETTINGS_APPLICATION "hexakis"
+
 #endif // CONSTS_H

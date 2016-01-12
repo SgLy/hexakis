@@ -27,6 +27,10 @@ QMainWindow (parent), ui (new Ui::MainWindow)
 	game = new normal_game (BOARD_WIDTH, BOARD_HEIGHT);
 	state = STATE_INIT;
 	setWindowState(Qt::WindowMaximized);
+	settings = new QSettings(SETTINGS_ORGNIZATION, SETTINGS_APPLICATION);
+	settings->beginGroup("Gaming");
+	dropPreview = settings->value("DropPreview",false).toBool();
+	settings->endGroup();
 }
 
 MainWindow::~MainWindow ()
@@ -109,6 +113,7 @@ void MainWindow::redraw()
 {
 	drawBoard (game->brd);
 	drawBlock (game->now);
+	if (dropPreview) drawPreview (game->now.FakeDropToBottom(game->brd));
 }
 
 void MainWindow::drawTile(int x, int y, int color)
@@ -162,6 +167,25 @@ void MainWindow::drawNext(const block &b)
 					tile_color_table[b.shape.color].r,
 					tile_color_table[b.shape.color].g,
 					tile_color_table[b.shape.color].b)));
+			}
+		}
+	}
+}
+
+void MainWindow::drawPreview(const block &b)
+{
+	for (int i = 0; i<4; i++) {
+		for (int j = 0; j<4; j++) {
+			if (b.shape.b[i][j]) {
+				scene->addRect(
+					(j + b.start_point.y) * BOARD_TILE_SIZE,
+					(i + b.start_point.x) * BOARD_TILE_SIZE,
+					BOARD_TILE_SIZE, BOARD_TILE_SIZE,
+					QPen (), QBrush (QColor(
+					tile_color_table[b.shape.color].r,
+					tile_color_table[b.shape.color].g,
+					tile_color_table[b.shape.color].b,
+					128)));
 			}
 		}
 	}

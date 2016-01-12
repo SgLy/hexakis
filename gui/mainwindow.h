@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QResizeEvent>
 #include <QTimer>
+#include <QSettings>
 
 #include "../lib/board.h"
 #include "../lib/normal_game.h"
@@ -26,6 +27,7 @@ private:
 	void drawBoard (const board &b);
 	void drawBlock (const block &b);
 	void drawNext (const block &b);
+	void drawPreview (const block &b);
 	void refreshScore();
 	normal_game *game;
 	enum {STATE_INIT, STATE_RUNNING, STATE_PAUSE} state;
@@ -33,6 +35,8 @@ private:
 	int score;
 	void doEraseRows();
 	void mode_switch();
+	QSettings *settings;
+	bool dropPreview;
 protected:
 	void resizeEvent (QResizeEvent *event);
 	void keyReleaseEvent(QKeyEvent * event);
