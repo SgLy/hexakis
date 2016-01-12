@@ -124,6 +124,10 @@ bool block::isHitBoard(board b) {
 	if (start_point.x + h - 1 < b.height - 1 - b.map.size())
 		return false;
 
+	// if bottom of block out of map
+	if (start_point.x + h - 1 >= b.height)
+		return true;
+
 	board::table::reverse_iterator it = b.map.rbegin();
 	// i indicates the row coord processing now
 	// starting from the top of the map
