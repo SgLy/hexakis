@@ -18,13 +18,15 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     ../lib/block.cpp \
     ../lib/board.cpp \
-    ../lib/util.cpp
+    ../lib/util.cpp \
+    ../lib/normal_game.cpp
 
 HEADERS  += mainwindow.h \
     ../lib/block.h \
     ../lib/board.h \
     ../lib/util.h \
-    consts.h
+    consts.h \
+    ../lib/normal_game.h
 
 FORMS    += mainwindow.ui
 
