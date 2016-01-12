@@ -28,6 +28,13 @@ void normal_game::Reset() {
 	*this = normal_game(GetWidth(), GetHeight());
 }
 
+void normal_game::Start() {
+	now = next;
+	next = block(point(0, 0), block_shape::GetRandomBlockShape());
+	now.start_point = point((brd.width - now.shape.width) >> 1, 0);
+	running = true;
+}
+
 void normal_game::Pause() {
 	running = false;
 }

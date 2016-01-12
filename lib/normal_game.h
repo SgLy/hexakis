@@ -15,6 +15,7 @@ class normal_game {
 	block GetNextBlock();
 	board GetBoard();
 	void Reset();
+	void Start();
 	void Pause();
 	void Resume();
 	bool isRunning();
