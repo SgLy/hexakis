@@ -23,7 +23,7 @@ void normal_game::Reset() {
 void normal_game::Start() {
 	now = next;
 	next = block(point(0, 0), block_shape::GetRandomBlockShape());
-	now.start_point = point((brd.width - now.shape.width) >> 1, 0);
+	now.start_point = point(0, (brd.width - now.shape.width) >> 1);
 	running = true;
 }
 
@@ -43,7 +43,7 @@ bool normal_game::Drop() {
 	if (now.Drop(brd)) {
 		now = next;
 		next = block(point(0, 0), block_shape::GetRandomBlockShape());
-		now.start_point = point((brd.width - now.shape.width) >> 1, 0);
+		now.start_point = point(0, (brd.width - now.shape.width) >> 1);
 		return true;
 	}
 	return false;
