@@ -26,8 +26,10 @@ private:
 	void drawBlock (const block &b);
 	normal_game *game;
 	enum {STATE_INIT, STATE_RUNNING, STATE_PAUSE} state;
+	void restartTimer();
 protected:
 	void resizeEvent (QResizeEvent *event);
+	void keyReleaseEvent(QKeyEvent * event);
 private slots:
 	void on_pushButton_clicked();
 	void timer_timeout();

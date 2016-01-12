@@ -36,6 +36,11 @@ void MainWindow::resizeEvent (QResizeEvent *event)
 		BOARD_HEIGHT * BOARD_TILE_SIZE), Qt::KeepAspectRatio);
 }
 
+void MainWindow::restartTimer()
+{
+	timer->start(300);
+}
+
 void MainWindow::on_pushButton_clicked()
 {
 	ui->graphicsView->fitInView(QRectF(0, 0, BOARD_WIDTH * BOARD_TILE_SIZE,
@@ -51,7 +56,7 @@ void MainWindow::on_pushButton_clicked()
 		;
 	}
 	start_timer:
-	timer->start(1000);
+	restartTimer ();
 	drawBoard (game->brd);
 	drawBlock (game->now);
 }
@@ -101,5 +106,16 @@ void MainWindow::drawBlock(const block &b)
 					i + b.start_point.x);
 			}
 		}
+	}
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event)
+{
+	switch (event->key()) {
+	case Qt::Key_Space:
+		return;
+	default:
+		QMainWindow::keyReleaseEvent(event);
+		return;
 	}
 }
