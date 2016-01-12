@@ -39,6 +39,7 @@ protected:
 private slots:
 	void on_pushButton_clicked();
 	void timer_timeout();
+	void on_actionStart_Game_triggered();
 };
 
 #endif				// MAINWINDOW_H
