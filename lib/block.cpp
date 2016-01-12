@@ -102,7 +102,6 @@ bool block::Drop(board &b) {
 }
 
 void block::RotateClockwise() {
-	
 	shape.RotateClockwise();
 }
 
