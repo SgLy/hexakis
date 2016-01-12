@@ -24,3 +24,27 @@ void board::Merge(const block &b) {
 		}
 	}
 }
+
+int board::EraseRows()
+{
+	int count = 0;
+	for (table::iterator i = map.begin(); i!=map.end(); i++) {
+		bool cont = true;
+		for (int j = 0; j<width && cont; j++) {
+			if(!(*i)[j]) cont = false;
+		}
+		if (cont) {
+			count++;
+			table::iterator i2 = i;
+			i--;
+			map.erase(i2);
+		}
+	}
+	for (int i = 0; i<count; i++) {
+		row r;
+		for (int j = 0; j<width; j++)
+			r.push_back(false);
+		map.push_back(r);
+	}
+	return count;
+}

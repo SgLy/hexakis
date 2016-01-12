@@ -62,3 +62,15 @@ void normal_game::MoveLeft() {
 void normal_game::MoveRight() {
 	now.MoveRight(brd);
 }
+
+int normal_game::EraseRows() {
+	return brd.EraseRows();
+}
+
+void normal_game::DropToBottom()
+{
+	now.DropToBottom(brd);
+	now = next;
+	next = block(point(0, 0), block_shape::GetRandomBlockShape());
+	now.start_point = point(0, (brd.width - now.shape.width) >> 1);
+}

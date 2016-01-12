@@ -21,6 +21,8 @@ public:
 	void Rotate();
 	void MoveLeft();
 	void MoveRight();
+	int EraseRows();
+	void DropToBottom();
 };
 
 

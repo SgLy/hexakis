@@ -32,6 +32,8 @@ public:
 		width = b.width;
 	}
 
+	int EraseRows();
+
 	void Merge(const block &b);
 };
 

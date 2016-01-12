@@ -17,9 +17,12 @@ QMainWindow (parent), ui (new Ui::MainWindow)
 		BOARD_HEIGHT * BOARD_TILE_SIZE);
 	scene->setBackgroundBrush(QBrush(QColor(Qt::white)));
 	ui->graphicsView->setScene (scene);
+	nextScene = new QGraphicsScene (0, 0, 4*BOARD_TILE_SIZE, 4*BOARD_TILE_SIZE);
+	nextScene->setBackgroundBrush(QBrush(QColor(Qt::black)));
+	ui->nextView->setScene(nextScene);
 	timer = new QTimer (this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timer_timeout()));
-	qsrand (std::time(NULL));
+	srand (std::time(NULL));
 	game = new normal_game (BOARD_WIDTH, BOARD_HEIGHT);
 	state = STATE_INIT;
 }
@@ -34,6 +37,8 @@ void MainWindow::resizeEvent (QResizeEvent *event)
 	QMainWindow::resizeEvent (event);
 	ui->graphicsView->fitInView(QRectF(0, 0, BOARD_WIDTH * BOARD_TILE_SIZE,
 		BOARD_HEIGHT * BOARD_TILE_SIZE), Qt::KeepAspectRatio);
+	ui->nextView->fitInView(QRectF(0, 0, 4*BOARD_TILE_SIZE,
+		4*BOARD_TILE_SIZE), Qt::KeepAspectRatio);
 }
 
 void MainWindow::restartTimer()
@@ -45,10 +50,15 @@ void MainWindow::on_pushButton_clicked()
 {
 	ui->graphicsView->fitInView(QRectF(0, 0, BOARD_WIDTH * BOARD_TILE_SIZE,
 		BOARD_HEIGHT * BOARD_TILE_SIZE), Qt::KeepAspectRatio);
+	ui->nextView->fitInView(QRectF(0, 0, 4*BOARD_TILE_SIZE,
+		4*BOARD_TILE_SIZE), Qt::KeepAspectRatio);
 	switch (state) {
 	case STATE_INIT:
 		game->Start();
+		drawNext(game->next);
 		state = STATE_RUNNING;
+		score = 0;
+		refreshScore();
 		goto start_timer;
 	case STATE_RUNNING:
 		;
@@ -63,7 +73,12 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::timer_timeout()
 {
 	if (state != STATE_RUNNING) return;
-	qDebug() << game->Drop() << " " << game->now.start_point.x << " " 
+	if (game->Drop()) {
+		drawNext(game->next);
+		score += game->EraseRows();
+		refreshScore();
+	}
+	qDebug() << game->now.start_point.x << " "
 		<< game->now.start_point.y;
 	redraw();
 }
@@ -111,11 +126,30 @@ void MainWindow::drawBlock(const block &b)
 	}
 }
 
+void MainWindow::drawNext(const block &b)
+{
+	nextScene->clear();
+	for (int i = 0; i<4; i++) {
+		for (int j = 0; j<4; j++) {
+			if (b.shape.b[i][j]) {
+				nextScene->addRect(j * BOARD_TILE_SIZE,
+					i * BOARD_TILE_SIZE, BOARD_TILE_SIZE,
+					BOARD_TILE_SIZE, QPen (),
+					QBrush (QColor(Qt::red)));
+			}
+		}
+	}
+}
+
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
 	switch (event->key()) {
 	case Qt::Key_Space:
-		goto restart_timer;
+		game->DropToBottom();
+		drawNext(game->next);
+		score += game->EraseRows();
+		refreshScore();
+		goto redraw;
 	case Qt::Key_Left:
 		game->MoveLeft();
 		goto redraw;
@@ -134,6 +168,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 	}
 	redraw:
 	redraw ();
-	restart_timer:
-	restartTimer();
+}
+
+void MainWindow::refreshScore()
+{
+	ui->label_score->setText(QString::asprintf("%d",score));
 }
