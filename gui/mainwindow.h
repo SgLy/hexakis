@@ -22,7 +22,7 @@ private:
 	Ui::MainWindow *ui;
 	QTimer *timer;
 	void redraw ();
-	void drawTile (int x, int y);
+	void drawTile (int x, int y, int color);
 	void drawBoard (const board &b);
 	void drawBlock (const block &b);
 	void drawNext (const block &b);

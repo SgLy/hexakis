@@ -8,6 +8,7 @@
 #include <ctime>
 
 #include "consts.h"
+#include "color_table.h"
 
 MainWindow::MainWindow (QWidget * parent):
 QMainWindow (parent), ui (new Ui::MainWindow)
@@ -109,12 +110,13 @@ void MainWindow::redraw()
 	drawBlock (game->now);
 }
 
-void MainWindow::drawTile(int x, int y)
+void MainWindow::drawTile(int x, int y, int color)
 {
 	scene->addRect(x * BOARD_TILE_SIZE,
 		y * BOARD_TILE_SIZE, BOARD_TILE_SIZE,
 		BOARD_TILE_SIZE, QPen (),
-		QBrush (QColor(Qt::red)));
+		QBrush (QColor(tile_color_table[color].r,
+			tile_color_table[color].g, tile_color_table[color].b)));
 }
 
 void MainWindow::drawBoard(const board &b)
@@ -127,7 +129,7 @@ void MainWindow::drawBoard(const board &b)
 	for (board::row r : b.map) {
 		for (size_t i = 0; i<BOARD_WIDTH; i++) {
 			if (r.size() > i && r[i]) {
-				drawTile (i,row);
+				drawTile (i,row, r[i]);
 			}
 		}
 		row--;
@@ -140,7 +142,7 @@ void MainWindow::drawBlock(const block &b)
 		for (int j = 0; j<4; j++) {
 			if (b.shape.b[i][j]) {
 				drawTile (j + b.start_point.y,
-					i + b.start_point.x);
+					i + b.start_point.x, b.shape.color);
 			}
 		}
 	}
@@ -155,7 +157,10 @@ void MainWindow::drawNext(const block &b)
 				nextScene->addRect(j * BOARD_TILE_SIZE,
 					i * BOARD_TILE_SIZE, BOARD_TILE_SIZE,
 					BOARD_TILE_SIZE, QPen (),
-					QBrush (QColor(Qt::red)));
+					QBrush (QColor(
+					tile_color_table[b.shape.color].r,
+					tile_color_table[b.shape.color].g,
+					tile_color_table[b.shape.color].b)));
 			}
 		}
 	}

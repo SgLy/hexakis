@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     ../lib/block.cpp \
     ../lib/board.cpp \
     ../lib/util.cpp \
-    ../lib/normal_game.cpp
+    ../lib/normal_game.cpp \
+    color_table.cpp
 
 HEADERS  += mainwindow.h \
     ../lib/block.h \
