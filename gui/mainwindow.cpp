@@ -48,7 +48,7 @@ void MainWindow::resizeEvent (QResizeEvent *event)
 
 void MainWindow::restartTimer()
 {
-	timer->start(300);
+	timer->start(interval);
 }
 
 void MainWindow::mode_switch()
@@ -257,10 +257,14 @@ void MainWindow::on_actionSettings_triggered()
 	if (state == STATE_RUNNING) mode_switch();
 	SettingsDialog* dialog = new SettingsDialog(this);
 	dialog->dropPreview = dropPreview;
+	dialog->interval = interval;
+	dialog->init_settings();
 	dialog->setModal(true);
 	dialog->exec();
 	dropPreview = dialog->dropPreview;
+	interval = dialog->interval;
 	qDebug() << "dropPreview:" << dropPreview;
+	qDebug() << "interval:" << interval;
 	refreshSettings(true);
 }
 
@@ -269,12 +273,15 @@ void MainWindow::refreshSettings(bool store)
 	if (store) {
 		settings->beginGroup("Gaming");
 		settings->setValue("DropPreview",dropPreview);
+		settings->setValue("Interval",interval);
 		settings->endGroup();
 	}
 	else {
 		settings->beginGroup("Gaming");
 		dropPreview = settings->value
 			("DropPreview",SETTINGS_DROPPREVIEW_DEFAULT).toBool();
+		interval = settings->value
+			("Interval",SETTINGS_INTERVAL_DEFAULT).toInt();
 		settings->endGroup();
 	}
 }

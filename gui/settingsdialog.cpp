@@ -11,7 +11,6 @@ QDialog(parent),
 ui(new Ui::SettingsDialog)
 {
 	ui->setupUi(this);
-	ui->dropPreview->setChecked(dropPreview);
 }
 
 SettingsDialog::~SettingsDialog()
@@ -19,8 +18,15 @@ SettingsDialog::~SettingsDialog()
 	delete ui;
 }
 
+void SettingsDialog::init_settings()
+{
+	ui->dropPreview->setChecked(dropPreview);
+	ui->intervalEdit->setText(QString::asprintf("%d",interval));
+}
+
 void SettingsDialog::on_buttonBox_accepted()
 {
 	qDebug() << "on_buttonBox_accepted";
 	dropPreview = ui->dropPreview->isChecked();
+	interval = ui->intervalEdit->text().toInt();
 }

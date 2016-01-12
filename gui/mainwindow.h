@@ -37,6 +37,7 @@ private:
 	void mode_switch();
 	QSettings *settings;
 	bool dropPreview;
+	int interval;
 	void refreshSettings(bool store = false);
 protected:
 	void resizeEvent (QResizeEvent *event);
