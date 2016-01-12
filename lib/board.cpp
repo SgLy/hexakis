@@ -22,6 +22,6 @@ void board::Merge(block b) {
     // i to the bottom of the block
     for (; i < b.start_point.x + h - 1; ++it, ++i) {
         for (int j = 0; j < w; ++j)
-            if (b.shape.b[i][j]) (*it)[j] = true;
+            if (b.shape.b[i - b.start_point.x][j]) (*it)[j] = true;
     }
 }
