@@ -2,7 +2,7 @@
 #include <time.h>
 #include "util.h"
 
-#if defined linux
+#if defined _POSIX_SOURCE
 #include <unistd.h> // Microsoft Visual C++ do not has this header
 #endif
 
@@ -12,7 +12,7 @@
 
 namespace util{
 
-#if defined linux
+#if defined _POSIX_SOURCE
 	void milliSleep(int ms) {
 		timespec ts;
 		ts.tv_sec = ms / 1000;
