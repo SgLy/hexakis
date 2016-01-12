@@ -74,3 +74,7 @@ void normal_game::DropToBottom()
 	next = block(point(0, 0), block_shape::GetRandomBlockShape());
 	now.start_point = point(0, (brd.width - now.shape.width) >> 1);
 }
+
+block normal_game::GetDropPosition() {
+	return now.FakeDropToBottom(brd);
+}

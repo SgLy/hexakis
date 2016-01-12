@@ -23,6 +23,7 @@ public:
 	void MoveRight();
 	int EraseRows();
 	void DropToBottom();
+	block GetDropPosition();
 };
 
 
