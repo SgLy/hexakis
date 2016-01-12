@@ -9,4 +9,6 @@
 #define SETTINGS_ORGNIZATION "kidney6-323"
 #define SETTINGS_APPLICATION "hexakis"
 
+#define SETTINGS_DROPPREVIEW_DEFAULT false
+
 #endif // CONSTS_H

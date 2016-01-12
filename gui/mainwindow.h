@@ -37,6 +37,7 @@ private:
 	void mode_switch();
 	QSettings *settings;
 	bool dropPreview;
+	void refreshSettings(bool store = false);
 protected:
 	void resizeEvent (QResizeEvent *event);
 	void keyReleaseEvent(QKeyEvent * event);
@@ -44,6 +45,7 @@ private slots:
 	void on_pushButton_clicked();
 	void timer_timeout();
 	void on_actionStart_Game_triggered();
+	void on_actionSettings_triggered();
 };
 
 #endif				// MAINWINDOW_H

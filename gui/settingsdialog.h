@@ -2,6 +2,7 @@
 #define SETTINGSDIALOG_H
 
 #include <QDialog>
+#include <QSettings>
 
 namespace Ui {
 	class SettingsDialog;
@@ -15,8 +16,13 @@ public:
 	explicit SettingsDialog(QWidget *parent = 0);
 	~SettingsDialog();
 
+	bool dropPreview;
+
+private slots:
+	void on_buttonBox_accepted();
 private:
 	Ui::SettingsDialog *ui;
+	QSettings *settings;
 };
 
 #endif // SETTINGSDIALOG_H

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "settingsdialog.h"
 
 #include <QSize>
 #include <QTransform>
@@ -28,9 +29,7 @@ QMainWindow (parent), ui (new Ui::MainWindow)
 	state = STATE_INIT;
 	setWindowState(Qt::WindowMaximized);
 	settings = new QSettings(SETTINGS_ORGNIZATION, SETTINGS_APPLICATION);
-	settings->beginGroup("Gaming");
-	dropPreview = settings->value("DropPreview",false).toBool();
-	settings->endGroup();
+	refreshSettings();
 }
 
 MainWindow::~MainWindow ()
@@ -193,6 +192,7 @@ void MainWindow::drawPreview(const block &b)
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
+	int erases = 0;
 	if (event->key() == Qt::Key_P) {
 		mode_switch();
 		return;
@@ -203,7 +203,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 		case Qt::Key_Space:
 			game->DropToBottom();
 			drawNext(game->next);
-			int erases = game->EraseRows();
+			erases = game->EraseRows();
 			for(int i = 0; i<erases; i++)
 			{
 				score += (i+1) * 100;
@@ -237,6 +237,8 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 			return;
 		}
 		return;
+	case STATE_PAUSE:
+		return;
 	}
 }
 
@@ -253,5 +255,26 @@ void MainWindow::on_actionStart_Game_triggered()
 void MainWindow::on_actionSettings_triggered()
 {
 	if (state == STATE_RUNNING) mode_switch();
+	SettingsDialog* dialog = new SettingsDialog(this);
+	dialog->dropPreview = dropPreview;
+	dialog->setModal(true);
+	dialog->exec();
+	dropPreview = dialog->dropPreview;
+	qDebug() << "dropPreview:" << dropPreview;
+	refreshSettings(true);
+}
 
+void MainWindow::refreshSettings(bool store)
+{
+	if (store) {
+		settings->beginGroup("Gaming");
+		settings->setValue("DropPreview",dropPreview);
+		settings->endGroup();
+	}
+	else {
+		settings->beginGroup("Gaming");
+		dropPreview = settings->value
+			("DropPreview",SETTINGS_DROPPREVIEW_DEFAULT).toBool();
+		settings->endGroup();
+	}
 }
