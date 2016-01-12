@@ -203,7 +203,11 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 		case Qt::Key_Space:
 			game->DropToBottom();
 			drawNext(game->next);
-			score += game->EraseRows();
+			int erases = game->EraseRows();
+			for(int i = 0; i<erases; i++)
+			{
+				score += (i+1) * 100;
+			}
 			refreshScore();
 			goto redraw;
 		case Qt::Key_Left:
@@ -244,4 +248,10 @@ void MainWindow::refreshScore()
 void MainWindow::on_actionStart_Game_triggered()
 {
 	mode_switch();
+}
+
+void MainWindow::on_actionSettings_triggered()
+{
+	if (state == STATE_RUNNING) mode_switch();
+
 }
