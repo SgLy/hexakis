@@ -1,6 +1,7 @@
 #include "board.h"
 
 #include <iterator>
+#include <vector>
 
 board::board(int w, int h) {
 	width = w;
@@ -28,6 +29,7 @@ void board::Merge(const block &b) {
 int board::EraseRows()
 {
 	int count = 0;
+	std::vector<table::iterator> v;
 	for (table::iterator i = map.begin(); i!=map.end(); i++) {
 		bool cont = true;
 		for (int j = 0; j<width && cont; j++) {
@@ -35,10 +37,11 @@ int board::EraseRows()
 		}
 		if (cont) {
 			count++;
-			table::iterator i2 = i;
-			i--;
-			map.erase(i2);
+			v.push_back (i);
 		}
+	}
+	for (table::iterator i : v) {
+		map.erase(i);
 	}
 	for (int i = 0; i<count; i++) {
 		row r;
