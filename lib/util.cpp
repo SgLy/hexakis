@@ -12,21 +12,6 @@
 
 namespace util{
 
-#if defined _POSIX_SOURCE
-	void milliSleep(int ms) {
-		timespec ts;
-		ts.tv_sec = ms / 1000;
-		ts.tv_nsec = (ms % 1000) * 1000000L;
-		nanosleep(&ts, NULL);
-	}
-#endif
-
-#if defined WIN32
-	void milliSleep(int ms) {
-		sleep(ms);
-	}
-#endif
-
 	int random(int range) {
 		return rand() % range;
 	}
