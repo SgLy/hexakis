@@ -250,7 +250,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 
 void MainWindow::refreshScore()
 {
-	ui->label_score->setText(QString::asprintf("%d",score));
+	ui->label_score->setText(QString("%1").arg(score));
 }
 
 void MainWindow::on_actionStart_Game_triggered()

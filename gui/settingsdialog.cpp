@@ -21,7 +21,7 @@ SettingsDialog::~SettingsDialog()
 void SettingsDialog::init_settings()
 {
 	ui->dropPreview->setChecked(dropPreview);
-	ui->intervalEdit->setText(QString::asprintf("%d",interval));
+	ui->intervalEdit->setText(QString("%1").arg(interval));
 }
 
 void SettingsDialog::on_buttonBox_accepted()
