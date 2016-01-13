@@ -228,6 +228,11 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 		case Qt::Key_Down:
 			timer_timeout ();
 			goto redraw;
+		case Qt::Key_C:
+			if (interval % 10 == 3)
+				game->next = block(util::point(0, 0), block_shape::GetRandomBlockShape());
+			drawNext(game->next);
+			goto redraw;
 		default:
 			QMainWindow::keyReleaseEvent(event);
 			return;
